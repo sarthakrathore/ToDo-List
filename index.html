@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Sarthak Rathore" />
+    <meta name="date" content="2024-01-11" />
+    <meta name="time" content="18:29" />
+
+    <title>ToDo list</title>
+  </head>
+  <body>
+    <h1 id="h1">ToDo List</h1>
+    <div id="container">
+      <label for="text"></label>
+      <input type="text" placeholder="Enter the task here" id="text" />
+      <button type="submit" id="add">Add</button>
+      <!-- <input type="submit" id="add"> -->
+      <div id="wrapper">
+        <ul id="ul"></ul>
+      </div>
+    </div>
+
+    <style>
+      body {
+        background-color: #121212;
+        color: #fff;
+       
+      }
+      #h1 {
+        text-align: center;
+        
+      }
+
+      #container {
+        text-align: center;
+      }
+      #wrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+        border: 2px grey solid;
+        min-height: 400px;
+        min-width: 100px;
+        margin: 0 30% 0 30%;
+        margin-top: 20px;
+      }
+      .li {
+        display: flex;
+        justify-content: space-between; /* Distribute content with space in between */
+        align-items: center; /* Vertically center buttons */
+        /* margin-top: 100px; */
+        padding-top: 50px;
+        
+      }
+
+      .edit{
+      margin-left: 300px;
+      }
+
+      
+    </style>
+
+    <script>
+      window.onload = function () {
+        document.getElementById("text").focus();
+      };
+
+      const button = document.getElementById("add");
+      button.style.backgroundColor = "lime";
+      const container = document.getElementById("container");
+      const wrapper = document.getElementById("wrapper");
+      const text = document.getElementById("text");
+
+      button.addEventListener("click", function () {
+        console.log("hello");
+        document.getElementById("text").focus();
+        t = text.value;
+
+        const ul = document.getElementById("ul");
+        const li = document.createElement("li");
+        li.setAttribute("className", "li");
+        li.style.textAlign = "left";
+        li.style.marginTop = "20px";
+
+        if (text.value === "") {
+          alert("Enter a valid input");
+        } else {
+          li.append(t);
+
+          text.value = "";
+
+          createEditButton(li);
+          createDelButton(li);
+
+          ul.append(li);
+        }
+      });
+
+      function createEditButton(li) {
+        const edit = document.createElement("input");
+        edit.style.backgroundColor = "yellow";
+        edit.setAttribute("id", `edit-${li.querySelectorAll("li").length}`);
+        edit.setAttribute("class", "edit");
+        edit.type = "button";
+        edit.value = "Edit";
+        li.append(edit);
+
+        edit.addEventListener("click", function () {
+          console.log("edit");
+          const taskText = li.textContent; // Get the current task text
+          const newTask = prompt("Edit task:", taskText);
+
+          if (newTask !== null && newTask.trim() !== "") {
+            // Check if user entered new text
+            li.textContent = newTask; // Update the task text
+          }
+          createEditButton(li);
+          createDelButton(li);
+        });
+      }
+
+      function createDelButton(li) {
+        const del = document.createElement("input");
+        del.style.backgroundColor = "red";
+        del.setAttribute("id", `del-${li.querySelectorAll("li").length}`); // Unique ID based on existing li elements
+        del.type = "button";
+        del.setAttribute("class", "del");
+        del.value = "Delete";
+
+        li.append(del);
+
+        del.addEventListener("click", function () {
+          console.log("delete");
+          const ask = prompt(
+            "Do you really want to delete this task (PRESS y for YES and n for NO)"
+          );
+          if (ask === "y" || ask === "Y") {
+            li.remove();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
